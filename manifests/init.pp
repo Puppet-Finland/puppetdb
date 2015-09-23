@@ -11,13 +11,23 @@
 #
 class puppetdb
 (
+    $java_heap_size = 192,
+    $store_usage = 1024,
+    $temp_usage = 512,
     $db_password
 )
 {
     include ::postgresql
     include ::postgresql::install::contrib
 
-    class { '::puppetdb::config::postgresql':
-        db_password => $db_password,
-}
+    include ::puppetdb::install
+
+    class { '::puppetdb::config':
+        java_heap_size => $java_heap_size,
+        store_usage    => $store_usage,
+        temp_usage     => $temp_usage,
+        db_password    => $db_password,
+    }
+
+    include ::puppetdb::service
 }

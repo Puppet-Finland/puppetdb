@@ -6,7 +6,8 @@
 class puppetdb::config::postgresql
 (
     $db_password
-)
+
+) inherits puppetdb::params
 {
     # Create a database user for PuppetDB
     postgresql_psql { 'CREATE ROLE puppetdb':
@@ -24,7 +25,7 @@ class puppetdb::config::postgresql
 
     # Install the regexp optimized index extension
     postgresql_psql { 'CREATE EXTENSION pg_trgm':
-        command => "CREATE EXTENSION pg_trgm",
+        command => 'CREATE EXTENSION pg_trgm',
         unless  => "SELECT extname FROM pg_extension WHERE extname='pg_trgm'",
         require => Class['postgresql::install::contrib'],
     }
