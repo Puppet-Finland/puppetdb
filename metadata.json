@@ -1,0 +1,16 @@
+{
+  "name": "puppetfinland-puppetdb",
+  "version": "0.1.0",
+  "author": "Puppet-Finland team",
+  "license": "BSD license",
+  "summary": "Setup puppetdb",
+  "source": "https://github.com/Puppet-Finland/puppetdb.git",
+  "project_page": "https://github.com/Puppet-Finland/puppetdb",
+  "dependencies": [
+    { "name": "puppetfinland/monit", "version_requirement": ">= 0.5.0" },
+    { "name": "puppetfinland/packetfilter", "version_requirement": ">= 0.5.0" },
+    { "name": "puppetfinland/os", "version_requirement": ">= 0.5.5" },
+    { "name": "puppetfinland/systemd", "version_requirement": ">= 0.1.0" },
+    { "name": "puppetfinland/postgresql", "version_requirement": ">= 0.3.1" }
+  ]
+}
