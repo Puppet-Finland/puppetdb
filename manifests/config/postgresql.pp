@@ -22,6 +22,13 @@ class puppetdb::config::postgresql
         require => Postgresql_psql['CREATE ROLE puppetdb'],
     }
 
+    # Install the regexp optimized index extension
+    postgresql_psql { 'CREATE EXTENSION pg_trgm':
+        command => "CREATE EXTENSION pg_trgm",
+        unless  => "SELECT extname FROM pg_extension WHERE extname='pg_trgm'",
+        require => Class['postgresql::install::contrib'],
+    }
+
     # Ensure this user can access the database 
     augeas { 'puppetdb-pg_hba.conf':
         context => "/files${::postgresql::params::pg_hba_conf}",
