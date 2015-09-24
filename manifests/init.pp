@@ -17,8 +17,14 @@ class puppetdb
     $db_password
 )
 {
-    include ::postgresql
-    include ::postgresql::install::contrib
+    # PuppetDB requires postgresql 9.4 or greater, so we need to use 
+    # postgresql's own apt/yum repositories.
+    class { '::postgresql':
+        use_latest_release => true,
+    }
+    class { '::postgresql::install::contrib':
+        use_latest_release => true,
+    }
 
     include ::puppetdb::install
 
