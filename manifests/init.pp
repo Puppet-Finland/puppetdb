@@ -9,6 +9,28 @@
 # assumed that Puppet Labs apt repositories have been preconfigured, which 
 # should be the case on a Puppetmaster.
 #
+# == Parameters
+#
+# [*java_heap_size*]
+#   Java heap size in megabytes. Defaults to 192.
+# [*store_usage*]
+#   How much storage PuppetDB is allowed to consume in megabytes. Defaults to 
+#   1024.
+# [*temp_usage*]
+#   How much temporary storage PuppetDB is allowed to consume. Defaults to 512.
+# [*db_password*]
+#   Password for the postgresql "puppetdb" user.
+#
+# == Authors
+#
+# Samuli Seppänen <samuli.seppanen@gmail.com>
+#
+# Samuli Seppänen <samuli@openvpn.net>
+#
+# == License
+#
+# BSD license. See file LICENSE for details.
+#
 class puppetdb
 (
     $java_heap_size = 192,
