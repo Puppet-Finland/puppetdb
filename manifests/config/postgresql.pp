@@ -13,7 +13,7 @@ class puppetdb::config::postgresql
     postgresql_psql { 'CREATE ROLE puppetdb':
         command => "CREATE ROLE puppetdb LOGIN NOCREATEDB NOCREATEROLE NOSUPERUSER ENCRYPTED PASSWORD \'${db_password}\'",
         unless  => "SELECT rolname FROM pg_roles WHERE rolname='puppetdb'",
-        require => Class['postgresql::install'],
+        require => Class['postgresql'],
     }
 
     # Create the puppetdb database
@@ -27,7 +27,7 @@ class puppetdb::config::postgresql
     postgresql_psql { 'CREATE EXTENSION pg_trgm':
         command => 'CREATE EXTENSION pg_trgm',
         unless  => "SELECT extname FROM pg_extension WHERE extname='pg_trgm'",
-        require => Class['postgresql::install::contrib'],
+        require => [ Class['postgresql'], Class['postgresql::install::contrib'] ],
     }
 
     # The location of pg_hba.conf changes depending on postgresql version. That, 
