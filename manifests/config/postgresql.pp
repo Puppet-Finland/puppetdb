@@ -43,11 +43,12 @@ class puppetdb::config::postgresql
     augeas { 'puppetdb-pg_hba.conf':
         context => "/files${pg_hba_conf}",
         changes =>
-        [ 'ins 0435 after 1',
-          'set 0435/type local',
+        [ 'ins 0435 before 1',
+          'set 0435/type host',
           'set 0435/database puppetdb',
           'set 0435/user puppetdb',
-          'set 0435/method password'
+          'set 0435/address samehost',
+          'set 0435/method md5',
         ],
         lens    => 'Pg_hba.lns',
         incl    => $pg_hba_conf,
