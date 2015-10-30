@@ -11,6 +11,12 @@
 #
 # == Parameters
 #
+# [*manage*]
+#   Whether to manage PuppetDB using puppet. Valid values are true (default) and 
+#   false.
+# [*manage_monit*]
+#   Whether to monitor PuppetDB using monit. Valid values are true (default) and 
+#   false.
 # [*java_heap_size*]
 #   Java heap size in megabytes. Defaults to 192.
 # [*store_usage*]
@@ -33,17 +39,27 @@
 #
 class puppetdb
 (
+    $manage = true,
+    $manage_monit = true,
     $java_heap_size = 192,
     $store_usage = 1024,
     $temp_usage = 512,
-    $db_password
+    $db_password,
+    $monitor_email = $::servermonitor
 )
 {
+
+    validate_bool($manage)
+    validate_bool($manage_monit)
+
+    if $manage {
+
     # PuppetDB requires postgresql 9.4 or greater, so we need to use 
     # postgresql's own apt/yum repositories.
     class { '::postgresql':
         use_latest_release => true,
     }
+
     class { '::postgresql::install::contrib':
         use_latest_release => true,
     }
@@ -58,4 +74,12 @@ class puppetdb
     }
 
     include ::puppetdb::service
+
+    if $manage_monit {
+        class { '::puppetdb::monit':
+            monitor_email => $monitor_email,
+        }
+    }
+
+}
 }
