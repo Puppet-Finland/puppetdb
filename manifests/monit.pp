@@ -9,6 +9,7 @@ class puppetdb::monit
 )
 {
     monit::fragment { 'puppetdb-puppetdb.monit':
+        basename   => 'puppetdb',
         modulename => 'puppetdb',
     }
 }
