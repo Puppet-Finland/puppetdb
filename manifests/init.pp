@@ -34,6 +34,8 @@
 #   Defaults to '127.0.0.1'.
 # [*allow_address_ipv6*]
 #   Same as above, but for IPv6. Defaults to '::1'.
+# [*monitor_email*]
+#   Where to send monitoring emails from monit. Defaults to $::servermonitor.
 #
 # == Authors
 #
