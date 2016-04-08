@@ -8,7 +8,8 @@ class puppetdb::config
     $java_heap_size,
     $store_usage,
     $temp_usage,
-    $db_password
+    $db_password,
+    $file_mode
 
 ) inherits puppetdb::params
 {
@@ -19,7 +20,7 @@ class puppetdb::config
     File {
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,
-        mode    => '0644',
+        mode    => $file_mode,
     }
 
     file { 'puppetdb-puppetdb':

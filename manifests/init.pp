@@ -29,6 +29,11 @@
 #   How much temporary storage PuppetDB is allowed to consume. Defaults to 512.
 # [*db_password*]
 #   Password for the postgresql "puppetdb" user.
+# [*file_mode*]
+#   Mode for the managed files. Defaults to '0644'. This is a workaround for 
+#   cases where Extended ACLs lure the File resource to thinking that file 
+#   permissions have changed, even though they have not. For more discussion see 
+#   init.pp in the puppetfinland/puppetmaster module.
 # [*allow_address_ipv4*]
 #   Address/subnet from which to allow connections to PuppetDB (8081/tcp). 
 #   Defaults to '127.0.0.1'.
@@ -56,6 +61,7 @@ class puppetdb
     $store_usage = 1024,
     $temp_usage = 512,
     $db_password,
+    $file_mode = '0644',
     $allow_address_ipv4 = '127.0.0.1',
     $allow_address_ipv6 = '::1',
     $monitor_email = $::servermonitor
@@ -85,6 +91,7 @@ class puppetdb
         store_usage    => $store_usage,
         temp_usage     => $temp_usage,
         db_password    => $db_password,
+        file_mode      => $file_mode,
     }
 
     include ::puppetdb::service
