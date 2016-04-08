@@ -17,6 +17,9 @@
 # [*manage_monit*]
 #   Whether to monitor PuppetDB using monit. Valid values are true (default) and 
 #   false.
+# [*manage_packetfilter*]
+#   Whether to manage packet filtering rules for PuppetDB. Valid values are true 
+#   and false (default).
 # [*java_heap_size*]
 #   Java heap size in megabytes. Defaults to 192.
 # [*store_usage*]
@@ -26,6 +29,11 @@
 #   How much temporary storage PuppetDB is allowed to consume. Defaults to 512.
 # [*db_password*]
 #   Password for the postgresql "puppetdb" user.
+# [*allow_address_ipv4*]
+#   Address/subnet from which to allow connections to PuppetDB (8081/tcp). 
+#   Defaults to '127.0.0.1'.
+# [*allow_address_ipv6*]
+#   Same as above, but for IPv6. Defaults to '::1'.
 #
 # == Authors
 #
@@ -41,16 +49,20 @@ class puppetdb
 (
     $manage = true,
     $manage_monit = true,
+    $manage_packetfilter = false,
     $java_heap_size = 192,
     $store_usage = 1024,
     $temp_usage = 512,
     $db_password,
+    $allow_address_ipv4 = '127.0.0.1',
+    $allow_address_ipv6 = '::1',
     $monitor_email = $::servermonitor
 )
 {
 
     validate_bool($manage)
     validate_bool($manage_monit)
+    validate_bool($manage_packetfilter)
 
     if $manage {
 
@@ -78,6 +90,13 @@ class puppetdb
     if $manage_monit {
         class { '::puppetdb::monit':
             monitor_email => $monitor_email,
+        }
+    }
+
+    if $manage_packetfilter {
+        class { '::puppetdb::packetfilter':
+            allow_address_ipv4 => $allow_address_ipv4,
+            allow_address_ipv6 => $allow_address_ipv6,
         }
     }
 
