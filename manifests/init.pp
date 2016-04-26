@@ -30,10 +30,10 @@
 # [*db_password*]
 #   Password for the postgresql "puppetdb" user.
 # [*file_mode*]
-#   Mode for the managed files. Defaults to '0644'. This is a workaround for 
-#   cases where Extended ACLs lure the File resource to thinking that file 
-#   permissions have changed, even though they have not. For more discussion see 
-#   init.pp in the puppetfinland/puppetmaster module.
+#   Mode for the managed files. Defaults to '0654', which is somewhat
+#   unconventional, but prevents the File resource from "fixing" the file
+#   permissions on every run when extended ACLs are used - see
+#   ::puppetmaster::acl class in puppetfinland/puppetmaster module for details.
 # [*allow_address_ipv4*]
 #   Address/subnet from which to allow connections to PuppetDB (8081/tcp). 
 #   Defaults to '127.0.0.1'.
@@ -61,7 +61,7 @@ class puppetdb
     $store_usage = 1024,
     $temp_usage = 512,
     $db_password,
-    $file_mode = '0644',
+    $file_mode = '0654',
     $allow_address_ipv4 = '127.0.0.1',
     $allow_address_ipv6 = '::1',
     $monitor_email = $::servermonitor
