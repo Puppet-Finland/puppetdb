@@ -54,13 +54,13 @@
 #
 class puppetdb
 (
+    $db_password,
     $manage = true,
     $manage_monit = true,
     $manage_packetfilter = false,
     $java_heap_size = 192,
     $store_usage = 1024,
     $temp_usage = 512,
-    $db_password,
     $file_mode = '0654',
     $allow_address_ipv4 = '127.0.0.1',
     $allow_address_ipv6 = '::1',
